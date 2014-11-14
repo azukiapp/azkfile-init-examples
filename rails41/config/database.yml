@@ -1,25 +1,66 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
-default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+<%
+require 'cgi'
+require 'uri'
 
-development:
-  <<: *default
-  database: db/development.sqlite3
+begin
+  uri = URI.parse(ENV["DATABASE_URL"])
+rescue URI::InvalidURIError
+  raise "Invalid DATABASE_URL"
+end
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: db/test.sqlite3
+raise "No RACK_ENV or RAILS_ENV found" unless ENV["RAILS_ENV"] || ENV["RACK_ENV"]
 
-production:
-  <<: *default
-  database: db/production.sqlite3
+def attribute(name, value, force_string = false)
+  if value
+    value_string =
+      if force_string
+        '"' + value + '"'
+      else
+        value
+      end
+    "#{name}: #{value_string}"
+  else
+    ""
+  end
+end
+
+database = (uri.path || "").split("/")[1]
+
+username = uri.user
+password = uri.password
+
+host = uri.host
+port = uri.port
+
+params = CGI.parse(uri.query || "")
+
+params["encoding"] = ["utf8"] unless params["encoding"].present?
+
+if params["pool"].empty?
+  concurrency = (ENV['WEB_CONCURRENCY'] || 3).to_i
+  concurrency += (ENV['WORKS_CONCURRENCY'] || 5).to_i
+  concurrency *= 2
+
+  params["pool"] = [concurrency]
+end
+
+adapter = case uri.scheme
+          when "postgres" then "postgresql"
+          when "mysql"    then "mysql2"
+          else uri.scheme
+          end
+
+%>
+
+
+<%= ENV["RAILS_ENV"] || ENV["RACK_ENV"] %>:
+  <%= attribute "adapter",  "mysql2" %>
+  <%= attribute "database", database %>
+  <%= attribute "username", username %>
+  <%= attribute "password", password, true %>
+  <%= attribute "host",     host %>
+  <%= attribute "port",     port %>
+
+<% params.each do |key, value| %>
+  <%= key %>: <%= value.first %>
+<% end %>
