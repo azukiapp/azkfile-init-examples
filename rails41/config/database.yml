@@ -54,7 +54,7 @@ adapter = case uri.scheme
 
 
 <%= ENV["RAILS_ENV"] || ENV["RACK_ENV"] %>:
-  <%= attribute "adapter",  "mysql2" %>
+  <%= attribute "adapter",  adapter %>
   <%= attribute "database", database %>
   <%= attribute "username", username %>
   <%= attribute "password", password, true %>
