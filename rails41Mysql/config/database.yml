@@ -25,33 +25,21 @@ def attribute(name, value, force_string = false)
 end
 
 database = (uri.path || "").split("/")[1]
-
 username = uri.user
 password = uri.password
-
-host = uri.host
-port = uri.port
-
-params = CGI.parse(uri.query || "")
+host     = uri.host
+port     = uri.port
+params   = CGI.parse(uri.query || "")
 
 params["encoding"] = ["utf8"] unless params["encoding"].present?
+params["pool"    ] = [5]      unless params["pool"    ].present?
 
-if params["pool"].empty?
-  concurrency = (ENV['WEB_CONCURRENCY'] || 3).to_i
-  concurrency += (ENV['WORKS_CONCURRENCY'] || 5).to_i
-  concurrency *= 2
-
-  params["pool"] = [concurrency]
-end
-
-adapter = case uri.scheme
+adapter = case uri.scheme.to_s
           when "postgres" then "postgresql"
           when "mysql"    then "mysql2"
-          else uri.scheme
+          else uri.scheme.to_s
           end
-
 %>
-
 
 <%= ENV["RAILS_ENV"] || ENV["RACK_ENV"] %>:
   <%= attribute "adapter",  adapter %>
