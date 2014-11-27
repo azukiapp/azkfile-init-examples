@@ -1,3 +1,16 @@
+## Docker Laravel PHP Framework Generation
+```shell
+# enter in the container
+docker run -v `pwd`:/app -p 127.0.0.1:8000:8000 -t -i --rm azukiapp/php-apache:5.6 bash
+
+# create laravel project
+composer create-project laravel/laravel laravelExample --prefer-dist
+
+# test
+cd laravelExample
+php artisan serve --host 0.0.0.0
+```
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
