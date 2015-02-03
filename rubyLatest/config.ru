@@ -25,4 +25,5 @@ run lambda { |env|
                    "</html>"
                  ]
 
-  [200, {}, responseBody]}
+  [200, {}, responseBody]
+}
