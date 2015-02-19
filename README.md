@@ -1,11 +1,6 @@
 Various Examples for AZK
 ========================
 
-Start agent
-```bash
-azk agent start
-```
-
 Create Azkfile.js
 ```bash
 azk init -f;
@@ -16,28 +11,38 @@ To start all systems:
 azk start
 ```
 
-Start and Reprovision one system:
+Restart all systems:
 ```
-azk start ruby21 -R;
-azk start ruby20 -R
-azk start ruby19 -R
-azk start postgres -R
-azk start rails41Postgres -R
-azk start mysql -R
-azk start rails41Mysql -R
-azk start jruby17 -R
-azk start python34 -R
-azk start python27 -R
-azk start flask -R
-azk start django17 -R
-azk start django15 -R
-azk start phpLaravel -R
-azk start phpSample -R
-azk start node010 -R
+azk restart
 ```
 
-Start and Stop all systems:
+Stop and Start all systems:
 ```
 azk stop
 azk start
+```
+
+To start and reprovision all systems:
+```
+azk start --reprovision
+```
+
+Start and reprovision one system:
+```
+azk start ruby21 --reprovision
+azk start ruby20 --reprovision
+azk start ruby19 --reprovision
+azk start postgres --reprovision
+azk start railsPostgres --reprovision
+azk start mysql --reprovision
+azk start railsMysql --reprovision
+azk start jruby17 --reprovision
+azk start python34 --reprovision
+azk start python27 --reprovision
+azk start flask --reprovision
+azk start django17 --reprovision
+azk start django15 --reprovision
+azk start phpLaravel --reprovision
+azk start phpSample --reprovision
+azk start node010 --reprovision
 ```
