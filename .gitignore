@@ -6,3 +6,4 @@ pids
 *.pid
 *.seed
 .lock-wscript
+!/azktcl/Azkfile.js
