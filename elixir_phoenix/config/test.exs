@@ -9,10 +9,13 @@ config :elixir_phoenix, ElixirPhoenix.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# Set a higher stacktrace during test
+config :phoenix, :stacktrace_depth, 20
+
 # Configure your database
 config :elixir_phoenix, ElixirPhoenix.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
   database: "elixir_phoenix_test",
-  size: 1 # Use a single connection for transactional tests
+  pool: Ecto.Adapters.SQL.Sandbox

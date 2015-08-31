@@ -20,12 +20,10 @@ defmodule ElixirPhoenix.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      # Alias the data repository and import query/model functions
       alias ElixirPhoenix.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
-      # Import URL helpers from the router
       import ElixirPhoenix.Router.Helpers
 
       # The default endpoint for testing
